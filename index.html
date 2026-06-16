@@ -3,10 +3,41 @@
 <head>
   <title>Cricket Draft System</title>
   <style>
-    body { font-family: Arial; text-align: center; background:#f2f2f2; }
-    input, button { padding:10px; margin:5px; }
-    .box { background:white; padding:20px; margin:20px auto; width:300px; border-radius:10px; }
-    li { list-style:none; padding:5px; }
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #f2f2f2;
+    }
+
+    .box {
+      background: white;
+      width: 300px;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 5px;
+      width: 80%;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    ul {
+      padding: 0;
+    }
+
+    li {
+      list-style: none;
+      padding: 5px;
+      background: #ddd;
+      margin: 5px;
+      border-radius: 5px;
+    }
   </style>
 </head>
 
@@ -17,7 +48,7 @@
 <div class="box">
   <h2>Add Player</h2>
   <input type="text" id="playerName" placeholder="Enter player name">
-  <button onclick="addPlayer()">Add</button>
+  <button onclick="addPlayer()">Add Player</button>
 </div>
 
 <div class="box">
@@ -31,8 +62,8 @@ let players = [];
 function addPlayer() {
   let name = document.getElementById("playerName").value;
 
-  if(name === "") {
-    alert("Naam daalo pehle");
+  if (name === "") {
+    alert("Naam likho pehle");
     return;
   }
 
