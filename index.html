@@ -1,11 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Cricket Draft Test</title>
+  <title>Cricket Draft System</title>
+  <style>
+    body { font-family: Arial; text-align: center; background:#f2f2f2; }
+    input, button { padding:10px; margin:5px; }
+    .box { background:white; padding:20px; margin:20px auto; width:300px; border-radius:10px; }
+    li { list-style:none; padding:5px; }
+  </style>
 </head>
+
 <body>
-<h1>🏏 Cricket Draft Working!</h1>
-<h2>Pratham Club</h2>
-<p>GitHub Pages successfully updated.</p>
+
+<h1>🏏 Cricket Draft System</h1>
+
+<div class="box">
+  <h2>Add Player</h2>
+  <input type="text" id="playerName" placeholder="Enter player name">
+  <button onclick="addPlayer()">Add</button>
+</div>
+
+<div class="box">
+  <h2>Players List</h2>
+  <ul id="list"></ul>
+</div>
+
+<script>
+let players = [];
+
+function addPlayer() {
+  let name = document.getElementById("playerName").value;
+
+  if(name === "") {
+    alert("Naam daalo pehle");
+    return;
+  }
+
+  players.push(name);
+  document.getElementById("playerName").value = "";
+  showPlayers();
+}
+
+function showPlayers() {
+  let list = document.getElementById("list");
+  list.innerHTML = "";
+
+  players.forEach((p) => {
+    let li = document.createElement("li");
+    li.innerText = p;
+    list.appendChild(li);
+  });
+}
+</script>
+
 </body>
 </html>
