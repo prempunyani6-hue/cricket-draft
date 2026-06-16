@@ -44,7 +44,7 @@
 </div>
 
 <script>
-// 🔥 STEP 1: Firebase Config (PASTE YOUR URL HERE)
+// 🔥 Firebase Config
 const firebaseConfig = {
   databaseURL: "YOUR_DATABASE_URL_HERE"
 };
@@ -52,13 +52,8 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// 🔥 LOCAL ARRAYS
-let players = [];
-let teamA = [];
-let teamB = [];
-
 // =======================
-// ADD PLAYER (LIVE SAVE)
+// ADD PLAYER
 // =======================
 function addPlayer() {
   let name = document.getElementById("playerName").value;
@@ -69,65 +64,69 @@ function addPlayer() {
 }
 
 // =======================
-// ADD TO TEAM
+// ADD TO TEAM (FIXED)
 // =======================
 function addToTeam(team) {
-  if(players.length === 0) return alert("No players");
+  db.ref("players").once("value", (snapshot) => {
+    let firstKey = null;
+    let firstValue = null;
 
-  let player = players.shift();
+    snapshot.forEach((child) => {
+      firstKey = child.key;
+      firstValue = child.val();
+      return true;
+    });
 
-  if(team === "A") {
-    db.ref("teamA").push(player);
-  } else {
-    db.ref("teamB").push(player);
-  }
+    if(!firstKey) return alert("No players");
+
+    // remove from players
+    db.ref("players/" + firstKey).remove();
+
+    // add to team
+    if(team === "A") {
+      db.ref("teamA").push(firstValue);
+    } else {
+      db.ref("teamB").push(firstValue);
+    }
+  });
 }
 
 // =======================
-// LIVE LISTENERS
+// LIVE PLAYERS
 // =======================
-
-// Players live update
 db.ref("players").on("value", (snapshot) => {
-  players = [];
   document.getElementById("players").innerHTML = "";
 
   snapshot.forEach((child) => {
-    players.push(child.val());
+    let li = document.createElement("li");
+    li.innerText = child.val();
+    document.getElementById("players").appendChild(li);
   });
-
-  renderPlayers();
 });
 
-// Team A live
+// =======================
+// TEAM A LIVE
+// =======================
 db.ref("teamA").on("value", (snapshot) => {
   document.getElementById("teamA").innerHTML = "";
   snapshot.forEach((child) => {
-    document.getElementById("teamA").innerHTML += "<li>"+child.val()+"</li>";
+    let li = document.createElement("li");
+    li.innerText = child.val();
+    document.getElementById("teamA").appendChild(li);
   });
 });
 
-// Team B live
+// =======================
+// TEAM B LIVE
+// =======================
 db.ref("teamB").on("value", (snapshot) => {
   document.getElementById("teamB").innerHTML = "";
   snapshot.forEach((child) => {
-    document.getElementById("teamB").innerHTML += "<li>"+child.val()+"</li>";
+    let li = document.createElement("li");
+    li.innerText = child.val();
+    document.getElementById("teamB").appendChild(li);
   });
 });
-
-// =======================
-// RENDER PLAYERS
-// =======================
-function renderPlayers() {
-  let list = document.getElementById("players");
-  list.innerHTML = "";
-
-  players.forEach((p) => {
-    let li = document.createElement("li");
-    li.innerText = p;
-    list.appendChild(li);
-  });
-}
 
 </script>
 
