@@ -1,59 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Cricket Draft System</title>
+  <title>Cricket Draft Game</title>
   <style>
-    body {
-      font-family: Arial;
-      text-align: center;
-      background: #f2f2f2;
-    }
-
-    .box {
-      background: white;
-      width: 300px;
-      margin: 20px auto;
-      padding: 20px;
-      border-radius: 10px;
-    }
-
-    input, button {
-      padding: 10px;
-      margin: 5px;
-      width: 80%;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    ul {
-      padding: 0;
-    }
-
-    li {
-      list-style: none;
-      padding: 5px;
-      background: #ddd;
-      margin: 5px;
-      border-radius: 5px;
-    }
+    body { font-family: Arial; text-align:center; background:#f2f2f2; }
+    .box { background:white; margin:20px auto; padding:15px; width:300px; border-radius:10px; }
+    button { padding:8px; margin:5px; }
+    ul { padding:0; }
+    li { list-style:none; padding:5px; background:#ddd; margin:5px; border-radius:5px; }
   </style>
 </head>
 
 <body>
 
-<h1>🏏 Cricket Draft System</h1>
+<h1>🏏 Cricket Draft Game</h1>
 
 <div class="box">
-  <h2>Add Player</h2>
-  <input type="text" id="playerName" placeholder="Enter player name">
-  <button onclick="addPlayer()">Add Player</button>
+  <input id="playerName" placeholder="Enter player">
+  <button onclick="addPlayer()">Add</button>
 </div>
 
 <div class="box">
-  <h2>Players List</h2>
+  <h3>Players</h3>
   <ul id="list"></ul>
+</div>
+
+<div class="box">
+  <button onclick="assign('A')">Team A</button>
+  <button onclick="assign('B')">Team B</button>
+
+  <h3>Team A</h3>
+  <ul id="teamA"></ul>
+
+  <h3>Team B</h3>
+  <ul id="teamB"></ul>
 </div>
 
 <script>
@@ -61,26 +41,36 @@ let players = [];
 
 function addPlayer() {
   let name = document.getElementById("playerName").value;
-
-  if (name === "") {
-    alert("Naam likho pehle");
-    return;
-  }
+  if(!name) return;
 
   players.push(name);
   document.getElementById("playerName").value = "";
-  showPlayers();
+  render();
 }
 
-function showPlayers() {
+function render() {
   let list = document.getElementById("list");
   list.innerHTML = "";
 
-  players.forEach((p) => {
+  players.forEach(p => {
     let li = document.createElement("li");
     li.innerText = p;
     list.appendChild(li);
   });
+}
+
+function assign(team) {
+  if(players.length === 0) return alert("No players");
+
+  let player = players.shift();
+
+  if(team === "A") {
+    document.getElementById("teamA").innerHTML += "<li>"+player+"</li>";
+  } else {
+    document.getElementById("teamB").innerHTML += "<li>"+player+"</li>";
+  }
+
+  render();
 }
 </script>
 
