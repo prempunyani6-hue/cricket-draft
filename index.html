@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cricket Draft</title>
+</head>
+<body style="font-family:Arial;text-align:center;padding:20px;">
+<h1>🏏 Cricket Draft</h1>
+
+<h2>Captain 1</h2>
+<select id="captain1">
+<option>Arun</option>
+<option>Manish</option>
+<option>Pratham</option>
+<option>Hemu</option>
+</select>
+
+<h2>Captain 2</h2>
+<select id="captain2">
+<option>Manish</option>
+<option>Arun</option>
+<option>Pratham</option>
+<option>Hemu</option>
+</select>
+
+<br><br>
+
+<button onclick="startDraft()">Start Draft</button>
+
+<h3 id="result"></h3>
+
+<script>
+function startDraft(){
+let c1=document.getElementById('captain1').value;
+let c2=document.getElementById('captain2').value;
+
+if(c1===c2){
+alert("Choose different captains");
+return;
+}
+
+document.getElementById('result').innerHTML=
+"Captain 1: "+c1+"<br>Captain 2: "+c2;
+}
+</script>
+
+</body>
+</html>
